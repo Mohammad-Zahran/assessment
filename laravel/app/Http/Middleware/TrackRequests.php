@@ -14,17 +14,18 @@ class TrackRequests
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next): Response
-    {
-        $userId = $request->header('user_id');
+public function handle(Request $request, Closure $next): Response
+{
+    $userId = $request->header('user_id'); 
 
-        if ($userId) {
-            $user = User::find($userId);
-            if ($user) {
-                $user->increment('requests_num');
-            }
+    if ($userId) {
+        $user = User::find($userId);
+        if ($user) {
+            $user->increment('requests_num');
         }
-
-        return $next($request);
     }
+
+    return $next($request);
+}
+
 }

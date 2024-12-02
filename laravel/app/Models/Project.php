@@ -9,8 +9,9 @@ class Project extends Model
     protected $table = 'projects';
 
     protected $fillable = [
-        'name',
+        'project_name',
         'user_id', 
+        'requests_num'  
     ];
 
     public function user()

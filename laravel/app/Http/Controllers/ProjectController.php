@@ -11,19 +11,26 @@ class ProjectController extends Controller
 
     public function createProject(Request $request)
     {
-        $validated = $request->validate([
-            'project_name' => 'required|string|max:255',
-            'user_id' => 'required|exists:users,id', 
-        ]);
-
-        $project = Project::create([
-            'project_name' => $validated['project_name'],
-            'user_id' => $validated['user_id'],
-        ]);
-
-        return response()->json($project, 201);
+        try {
+            $validated = $request->validate([
+                'project_name' => 'required|string|max:255',
+                'user_id' => 'required|exists:users,id', 
+            ]);
+    
+            $project = Project::create([
+                'name' => $validated['project_name'],
+                'user_id' => $validated['user_id'],
+            ]);
+    
+            $project->increment('requests_num'); 
+    
+            return response()->json($project, 201);
+    
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
-
+    
     public function getProject($id){
         $project = Project::find($id);
 
