@@ -10,7 +10,8 @@ class Project extends Model
 
     protected $fillable = [
         'name',
-        'user_id',
+        'description',
+        'user_id', 
     ];
 
     public function user()
@@ -18,6 +19,8 @@ class Project extends Model
         return $this->belongsTo(User::class); 
     }
 
-
-
+    public function members()
+    {
+        return $this->belongsToMany(User::class, 'project_user', 'project_id', 'user_id'); 
+    }
 }
